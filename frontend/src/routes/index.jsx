@@ -4,6 +4,7 @@ import { PrivateRoutes } from './Private';
 import { LoginPage } from '../pages/Login';
 import { HomePage } from '../pages/Home';
 import { SignUpPage } from '../pages/SignUp';
+import { ProfilePage } from '../pages/Profile';
 
 export const Routes = () => {
   return (
@@ -28,6 +29,7 @@ export const Routes = () => {
         )}
       >
         <Route path="/home" Component={HomePage} />
+        <Route path="/profile" Component={ProfilePage} />
       </Route>
     </DOMRoutes>
   )

@@ -40,12 +40,29 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   }, []);
 
+  const updateUser = useCallback(async data => {
+    const { data: updatedUser } = await api.put('/users', data);
+
+    const storedData = localStorage.getItem(STORE_KEY) || '{}';
+    const parsedStoredData = JSON.parse(storedData);
+
+    const newDataToStore = {
+      token: parsedStoredData.token,
+      user: updatedUser,
+    };
+
+    localStorage.setItem(STORE_KEY, JSON.stringify(newDataToStore));
+
+    setUser(updatedUser);
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
         user,
         login,
         logOut,
+        updateUser,
       }}
     >
       {children}
