@@ -8,6 +8,10 @@ const STORE_KEY = '@BarberConnect:Auth';
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  const setDefaultAuthorization = useCallback((token) => {
+    api.defaults.headers.authorization = `Bearer ${token}`;
+  }, []);
+
   useEffect(() => {
     const storedAuth = localStorage.getItem(STORE_KEY);
 
@@ -15,9 +19,14 @@ export const AuthProvider = ({ children }) => {
 
     const parsedStoredAuth = JSON.parse(storedAuth);
 
-    api.defaults.headers.authorization = `Bearer ${parsedStoredAuth.token}`;
-
+    setDefaultAuthorization(parsedStoredAuth.token);
     setUser(parsedStoredAuth.user);
+  }, [setDefaultAuthorization]);
+
+  const storeAuthData = useCallback((data) => {
+    const parsedData = JSON.stringify(data);
+
+    localStorage.setItem(STORE_KEY, parsedData);
   }, []);
 
   const login = useCallback(async (email, password) => {
@@ -29,10 +38,10 @@ export const AuthProvider = ({ children }) => {
     const { token, user } = data;
     const authToStore = { user, token };
 
-    localStorage.setItem(STORE_KEY, JSON.stringify(authToStore));
-
+    storeAuthData(authToStore);
+    setDefaultAuthorization(token);
     setUser(user);
-  }, []);
+  }, [storeAuthData, setDefaultAuthorization]);
 
   const logOut = useCallback(() => {
     localStorage.removeItem(STORE_KEY);
@@ -51,10 +60,9 @@ export const AuthProvider = ({ children }) => {
       user: updatedUser,
     };
 
-    localStorage.setItem(STORE_KEY, JSON.stringify(newDataToStore));
-
+    storeAuthData(newDataToStore);
     setUser(updatedUser);
-  }, []);
+  }, [storeAuthData]);
 
   return (
     <AuthContext.Provider
