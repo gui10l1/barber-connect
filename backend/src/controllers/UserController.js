@@ -1,11 +1,11 @@
 const { sign } = require("jsonwebtoken");
 const User = require("../models/User");
 const authConfig = require("../config/authConfig");
-const ApiError = require("../errors/ApiError");
+const BaseController = require("./BaseController");
 
-class UserController {
-  _handleBadRequestError(res, reason = '') {
-    throw new ApiError(400, reason);
+class UserController extends BaseController {
+  constructor() {
+    super();
   }
 
   async _emailIsAvailable(email) {
@@ -14,7 +14,29 @@ class UserController {
     return Boolean(!emailInUse);
   }
 
-  async create(req, res) {
+  async createBarbers(req, res) {
+    const { name, email, password } = req.body;
+
+    const emailIsAvailable = await this._emailIsAvailable(email);
+
+    if (!emailIsAvailable) {
+      return this._handleBadRequestError(
+        res, 
+        'Uma conta já está utilizando este email!'
+      );
+    }
+
+    const user = await User.create({
+      name,
+      email,
+      password,
+      access: 2,
+    });
+
+    return res.status(201).json(user);
+  }
+
+  async createClients(req, res) {
     const { name, email, password } = req.body;
 
     const emailIsAvailable = await this._emailIsAvailable(email);
@@ -36,7 +58,7 @@ class UserController {
   }
 
   async update(req, res) {
-    const user = req.user;
+    const user = this._getRequestUser(req);
     const data = req.body;
 
     if (data.email && data.email !== user.email) {

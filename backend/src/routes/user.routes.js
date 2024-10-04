@@ -15,8 +15,21 @@ userRoutes.post(
       password: Joi.string().required(),
     },
   }),
-  userController.create.bind(userController),
+  userController.createBarbers.bind(userController),
 );
+
+userRoutes.post(
+  '/clients',
+  celebrate({
+    [Segments.BODY]: {
+      name: Joi.string().required(),
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+    },
+  }),
+  userController.createClients.bind(userController),
+);
+
 userRoutes.post(
   '/session',
   celebrate({

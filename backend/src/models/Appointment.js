@@ -1,30 +1,33 @@
 const Sequelize = require("sequelize");
 const database = require("../database");
 
-const User = database.define('users', {
+const Appointment = database.define('appointments', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true
   },
-  name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  email: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    unique: true,
-  },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  access: {
+  user_id: {
     type: Sequelize.INTEGER,
-    defaultValue: 1,
-  }
+    allowNull: false,
+  },
+  client_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  service_id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
+  date: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  hour: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  },
 });
 
-module.exports = User;
+module.exports = Appointment;

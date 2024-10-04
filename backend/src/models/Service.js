@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const database = require("../database");
 
-const User = database.define('users', {
+const Service = database.define('services', {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -12,19 +12,16 @@ const User = database.define('users', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-  email: {
-    type: Sequelize.STRING,
+  price: {
+    type: Sequelize.DECIMAL,
     allowNull: false,
-    unique: true,
+    scale: 2,
+    precision: 8
   },
-  password: {
-    type: Sequelize.STRING,
-    allowNull: false,
-  },
-  access: {
+  user_id: {
     type: Sequelize.INTEGER,
-    defaultValue: 1,
+    allowNull: false,
   }
 });
 
-module.exports = User;
+module.exports = Service;
