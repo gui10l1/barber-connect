@@ -128,7 +128,11 @@ export const HomePage = () => {
         </div>
 
         <div>
-          <Calendar value={selectedDate} onChange={handleCalendarDateChange} />
+          <Calendar
+            value={selectedDate}
+            onChange={handleCalendarDateChange}
+            minDate={new Date()}
+          />
 
           <div>
             <div>

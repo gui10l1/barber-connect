@@ -1,5 +1,6 @@
 import { createContext, useCallback, useEffect, useState } from "react";
 import api from "../services/api";
+import { toast } from 'react-toastify';
 
 export const AuthContext = createContext();
 
@@ -36,6 +37,14 @@ export const AuthProvider = ({ children }) => {
     );
 
     const { token, user } = data;
+
+    if (user.access !== 2) {
+      toast('Você não tem permissão para acessar este recurso!', {
+        type: 'error',
+      });
+      return;
+    }
+
     const authToStore = { user, token };
 
     storeAuthData(authToStore);

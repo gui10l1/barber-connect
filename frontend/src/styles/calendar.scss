@@ -46,4 +46,9 @@
 
     border-radius: 4px;
   }
+
+  .react-calendar__navigation button:disabled, .react-calendar__tile:disabled {
+    opacity: .1;
+    background-color: transparent;
+  }
 }

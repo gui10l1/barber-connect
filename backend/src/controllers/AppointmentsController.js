@@ -66,6 +66,7 @@ class AppointmentsController extends BaseController {
     const { date } = req.params;
     const now = Number(req.query.now);
     const hourString = format(now, 'HH:mm');
+    const nowString = format(now, 'yyyy-MM-dd');
 
     if (user.access !== 2) {
       throw new ApiError(400, 'Você não possui agendamentos pois não é um barbeiro!');
@@ -73,15 +74,16 @@ class AppointmentsController extends BaseController {
 
     const hour = this._getHourFromString(hourString);
 
-    const appointments = await Appointment.findAll({
+    const filters = {
       where: {
         user_id: user.id,
         date,
-        hour: {
-          [Op.gt]: hour,
-        }
       },
-    });
+    };
+
+    if (nowString === date) filters.where.hour = { [Op.gt]: hour };
+
+    const appointments = await Appointment.findAll(filters);
 
     const parsedAppointments = await Promise.all(
       appointments.map(async appointment => {
