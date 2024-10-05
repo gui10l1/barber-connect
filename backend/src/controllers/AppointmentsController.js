@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const ApiError = require("../errors/ApiError");
 const Appointment = require("../models/Appointment");
 const Service = require("../models/Service");
@@ -63,15 +64,22 @@ class AppointmentsController extends BaseController {
   async listBarberAppointments(req, res) {
     const user = this._getRequestUser(req);
     const { date } = req.params;
+    const now = Number(req.query.now);
+    const hourString = format(now, 'HH:mm');
 
     if (user.access !== 2) {
       throw new ApiError(400, 'Você não possui agendamentos pois não é um barbeiro!');
     }
 
+    const hour = this._getHourFromString(hourString);
+
     const appointments = await Appointment.findAll({
       where: {
         user_id: user.id,
         date,
+        hour: {
+          [Op.gt]: hour,
+        }
       },
     });
 
