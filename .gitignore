@@ -3,3 +3,5 @@ node_modules
 .env
 **/.env
 backend/database.sqlite
+backend/coverage
+backend/.nyc_output
