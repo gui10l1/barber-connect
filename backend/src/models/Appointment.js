@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const database = require("../database");
+const User = require("./User");
 
 const Appointment = database.define('appointments', {
   id: {
@@ -28,6 +29,13 @@ const Appointment = database.define('appointments', {
     type: Sequelize.INTEGER,
     allowNull: false,
   },
+  unix_date: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+  }
 });
+
+Appointment.belongsTo(User, { foreignKey: 'user_id' });
+Appointment.belongsTo(User, { foreignKey: 'client_id', as: 'client' });
 
 module.exports = Appointment;

@@ -1,0 +1,192 @@
+#create-appointment {
+  #content {
+    background-color: var(--light-gray);
+
+    min-height: 100vh;
+
+    padding: 0 100px;
+    padding-top: 65px;
+
+    > h1 {
+      font-size: 36px;
+      font-weight: 700;
+
+      color: white;
+    }
+
+    .barber {
+      margin-top: 30px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      max-width: 342px;
+  
+      background-color: var(--green);
+  
+      padding: 20px 24px;
+  
+      border-radius: 10px;
+  
+      gap: 24px;
+  
+      > img {
+        width: 72px;
+        height: 72px;
+  
+        border-radius: 50%;
+  
+        background-color: white;
+  
+        padding: 1px;
+      }
+  
+      > div {
+  
+        flex: 1;
+  
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+  
+        > strong {
+          font-size: 20px;
+          color: white;
+        }
+  
+        > span {
+          font-size: 14px;
+          font-weight: 500;
+  
+          color: var(--lighter-gray);
+        }
+      }
+    }
+
+    .title {
+      margin-top: 50px;
+      margin-bottom: 30px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      > h2 {
+        font-size: 28px;
+        font-weight: 700;
+  
+        color: white;
+      }
+    }
+
+    > form {  
+      > select {
+        height: 50px;
+        max-width: 512px;
+        width: 100%;
+  
+        background-color: var(--lighter-gray);
+  
+        border-radius: 10px;
+  
+        border: none;
+  
+        color: white;
+  
+        text-align: center;
+  
+        > option {
+          background-color: white;
+          height: 25px;
+        }
+      }
+
+      > button {
+        display: block;
+
+        height: 75px;
+
+        background-color: var(--green);
+
+        color: white;
+
+        width: 100%;
+
+        border-radius: 10px;
+
+        font-size: 20px;
+        font-weight: 600;
+
+        margin-top: 130px;
+      }
+    }
+
+    .schedule {
+      margin-top: 35px;
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 15px;
+
+      > span {
+        font-weight: 600;
+        font-size: 20px;
+        color: white;
+      }
+
+      > div {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        
+        column-gap: 50px;
+        row-gap: 16px;
+      }
+    }
+
+    .hour-field {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: var(--lighter-gray);
+
+      height: 50px;
+
+      padding: 0 48px;
+
+      border-radius: 10px;
+
+      > input {
+        position: absolute;
+
+        opacity: 0;
+
+        background-color: green;
+
+        height: 100%;
+        width: 100%;
+
+        cursor: pointer;
+      }
+
+      > label {
+        font-size: 14px;
+        font-weight: 600;
+
+        color: white;
+      }
+    }
+  }
+}
+
+.input-error {
+  display: block;
+  margin-top: 4px;
+
+  color: red;
+}

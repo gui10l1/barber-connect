@@ -18,7 +18,8 @@
   align-items: center;
 
   > div {
-    min-width: 467px;
+    max-width: 467px;
+    width: 100%;
 
     a {
       text-decoration: none;
@@ -71,6 +72,10 @@
       font-weight: 600;
     }
   }
+
+  @media (max-width: 1024px) {
+    padding: 0 20px;
+  }
 }
 
 #background {
@@ -78,4 +83,8 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 }

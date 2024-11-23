@@ -72,6 +72,24 @@ class UserController extends BaseController {
       }
     }
 
+    if (data.password && !data.currentPassword) {
+      this._handleBadRequestError(
+        res,
+        'Para atualizar sua senha, forneça a atual!',
+      );
+    }
+
+    if (data.password) {
+      const currentPasswordMatch = data.currentPassword === user.password;
+
+      if (!currentPasswordMatch) {
+        this._handleBadRequestError(
+          res,
+          'A senha atual não está correta!'
+        );
+      }
+    }
+
     const filterOption = { id: user.id };
 
     await User.update(data, { where: filterOption });
@@ -107,6 +125,22 @@ class UserController extends BaseController {
     const response = { token, user };
 
     return res.status(200).json(response);
+  }
+
+  async listBarbers(req, res) {
+    const barbers = await User.findAll({
+      where: { access: 2 },
+    });
+
+    return res.json(barbers);
+  }
+
+  async find(req, res) {
+    const { id } = req.params;
+
+    const user = await User.findOne({ where: { id } });
+
+    return res.json(user);
   }
 }
 

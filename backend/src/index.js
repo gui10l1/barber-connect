@@ -1,3 +1,5 @@
+process.env.TZ = 'America/Sao_Paulo';
+
 require('reflect-metadata');
 require('dotenv/config');
 require('express-async-errors');

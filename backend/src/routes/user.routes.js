@@ -6,6 +6,9 @@ const { celebrate, Segments, Joi } = require("celebrate");
 const userRoutes = Router();
 const userController = new UserController();
 
+userRoutes.get('/barbers', userController.listBarbers.bind(userController));
+userRoutes.get('/:id', userController.find.bind(userController));
+
 userRoutes.post(
   '/',
   celebrate({
@@ -49,6 +52,7 @@ userRoutes.put(
       name: Joi.string(),
       email: Joi.string().email(),
       password: Joi.string(),
+      currentPassword: Joi.string(),
     }
   }),
   userController.update.bind(userController)

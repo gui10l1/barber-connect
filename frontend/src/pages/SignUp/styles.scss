@@ -18,7 +18,8 @@
   align-items: center;
 
   > div {
-    min-width: 467px;
+    max-width: 467px;
+    width: 100%;
 
     a {
       text-decoration: none;

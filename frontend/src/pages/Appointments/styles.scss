@@ -1,72 +1,18 @@
-#home {
-  #header {
-    height: 144px;
-    padding: 0 100px;
-  
-    background-color: var(--heavy-gray);
-  
-    display: flex;
-    align-items: center;
-  
-    > div {
-      flex: 1;
-    }
-  
-    > div:nth-child(1) {
-      > strong {
-        font-size: 36px;
-        color: var(--green);
-      }
-    }
-  
-    > button:nth-child(2) {
-      flex: 1;
-  
-      display: flex;
-      align-items: center;
-  
-      cursor: pointer;
-  
-      gap: 20px;
-  
-      &:hover {
-        > span {
-          text-decoration: underline;
-        }
-      }
-  
-      > span {
-        color: white;
-  
-        font-size: 20px;
-        font-weight: 500;
-  
-        text-decoration: none;
-      }
-    }
-  
-    > div:nth-child(3) {
-      display: flex;
-      align-items: center;
-      justify-content: flex-end;
-  
-      gap: 48px;
-    }
-  }
-
+#appointments {
   #content {
     background-color: var(--light-gray);
 
     min-height: 100vh;
 
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
+    padding: 0 0 0 100px;
 
-    padding: 0 100px;
-    padding-top: 65px;
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
 
     > div:nth-child(1) {
+      padding-top: 65px;
+
       max-width: 640px;
       width: 100%;
 
@@ -133,6 +79,8 @@
             font-weight: 600;
 
             color: var(--green);
+
+            text-align: center;
           }
         }
       }
@@ -171,6 +119,8 @@
             font-weight: 700;
 
             color: var(--green);
+
+            text-align: center;
           }
 
           > div {
@@ -195,69 +145,6 @@
 
               color: white;
             }
-          }
-        }
-      }
-    }
-
-    > div:nth-child(2) {
-      display: flex;
-      flex-direction: column;
-
-      > div:nth-last-child(1) {
-        margin-top: 96px;
-
-        display: grid;
-
-        grid-template-rows: 1fr 1fr;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-
-        > div {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-
-          height: 196px;
-
-          background-color: var(--lighter-gray);
-
-          padding: 0 11px;
-
-          strong { font-size: 36px; }
-          span { font-size: 24px; }
-
-          &:nth-child(1) {
-            strong {
-              color: white;
-            }
-
-            span {
-              color: var(--green);
-            }
-          }
-
-          &:nth-child(2) {
-            strong {
-              color: var(--green);
-            }
-
-            span {
-              color: white;
-            }
-          }
-        }
-
-        > div:nth-last-child(1) {
-          grid-column: span 2;
-
-          strong {
-            color: #FFDA58;
-          }
-
-          span {
-            color: white;
           }
         }
       }

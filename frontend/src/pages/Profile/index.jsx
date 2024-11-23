@@ -38,7 +38,8 @@ export const ProfilePage = () => {
       await updateUser({
         name: data.name,
         email: data.email,
-        password: data.password
+        password: data.password,
+        currentPassword: data.currentPassword,
       });
 
       toast('Perfil atualizado com sucesso!', {
@@ -57,8 +58,8 @@ export const ProfilePage = () => {
 
   return (
     <div id="profile">
-      <div id="header">
-        <button onClick={() => navigate('/home')}>
+      <div className="header">
+        <button onClick={() => navigate(-1)}>
           <FiArrowLeft size={32} color="#fff" />
         </button>
       </div>
@@ -104,6 +105,21 @@ export const ProfilePage = () => {
           </div>
 
           <div>
+            <Controller
+              name="currentPassword"
+              control={control}
+              render={({ field: { onChange, value }, fieldState: { error } }) => (
+                <Input
+                  type="password"
+                  icon={FiKey}
+                  onChange={onChange}
+                  value={value}
+                  error={error?.message}
+                  placeholder="Senha atual"
+                />
+              )}
+            />
+
             <Controller
               name="password"
               control={control}

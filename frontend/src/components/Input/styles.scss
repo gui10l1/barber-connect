@@ -12,6 +12,9 @@
 
   gap: 22px;
 
+  max-width: 100%;
+  width: 100%;
+
   > input {
     height: 100%;
 
@@ -23,6 +26,9 @@
     font-weight: 400;
 
     color: #fff;
+
+    max-width: 100%;
+    width: 100%;
   }
 }
 

@@ -1,0 +1,46 @@
+#appointment-scheduled {
+  #content {
+    background-color: var(--light-gray);
+
+    min-height: 100vh;
+
+    padding: 0 100px;
+    padding-top: 65px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > h1 {
+      font-size: 700;
+      font-size: 36px;
+
+      color: var(--green);
+
+      margin-bottom: 20px;
+    }
+
+    > p {
+      margin-bottom: 50px;
+
+      color: white;
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    > button {
+      height: 55px;
+      max-width: 281px;
+      width: 100%;
+
+      border-radius: 10px;
+
+      font-size: 14px;
+      font-weight: 600;
+
+      color: white;
+
+      background-color: var(--green);
+    }
+  }
+}

@@ -27,7 +27,7 @@ class ServicesController extends BaseController {
   async list(req, res) {
     const { barberId } = req.params;
 
-    const services = await Service.findOne({
+    const services = await Service.findAll({
       where: { user_id: barberId },
     });
 
