@@ -1,5 +1,8 @@
-const ApiError = require("../errors/ApiError");
-const Service = require("../models/Service");
+const CreateServicesService = require("../services/services/Create");
+const DeleteServicesService = require("../services/services/Delete");
+const FindServicesService = require("../services/services/Find");
+const ListServicesByBarberIdService = require("../services/services/ListByBarberId");
+const UpdateServicesService = require("../services/services/Update");
 const BaseController = require("./BaseController");
 
 class ServicesController extends BaseController {
@@ -9,44 +12,31 @@ class ServicesController extends BaseController {
 
   async create(req, res) {
     const user = this._getRequestUser(req);
-    const { name, price } = req.body;
 
-    if (user.access !== 2) {
-      throw new ApiError(400, 'Apenas barbeiros podem criar serviços!')
-    }
+    const service = new CreateServicesService();
 
-    const service = await Service.create({
-      name,
-      price,
-      user_id: user.id,
-    });
+    const serviceInc = await service.execute(user, req.body);
 
-    return res.json(service);
+    return res.json(serviceInc);
   }
 
   async list(req, res) {
     const { barberId } = req.params;
 
-    const services = await Service.findAll({
-      where: { user_id: barberId },
-    });
+    const service = new ListServicesByBarberIdService();
+    const services = await service.execute({ barberId });
 
-    return res.json(services || []);
+    return res.json(services);
   }
 
   async find(req, res) {
     const { id } = req.params;
 
-    const service = await Service.findOne({ where: { id: id } });
+    const service = new FindServicesService();
 
-    if (!service) {
-      throw new ApiError(
-        400,
-        "Não foi possível encontrar o servido informado!"
-      );
-    }
+    const serviceInc = await service.execute({ id });
 
-    return res.json(service);
+    return res.json(serviceInc);
   }
 
   async update(req, res) {
@@ -54,25 +44,9 @@ class ServicesController extends BaseController {
     const { id } = req.params;
     const { name, price } = req.body;
 
-    const service = await Service.findOne({ where: { id } });
+    const service = new UpdateServicesService();
 
-    if (!service) {
-      throw new ApiError(
-        400,
-        "Não foi possível encontrar o servido informado para atualizar!"
-      );
-    }
-
-    if (service.user_id !== user.id) {
-      throw new ApiError(
-        403,
-        "Você não tem autorização para atualizar esse serviço!",
-      );
-    }
-
-    await Service.update({ name, price }, { where: { id: service.id } });
-
-    const updatedService = await Service.findOne({ where: { id } });
+    const updatedService = await service.execute(user, { id, name, price });
 
     return res.json(updatedService);
   }
@@ -81,23 +55,9 @@ class ServicesController extends BaseController {
     const user = this._getRequestUser(req);
     const { id } = req.params;
 
-    const service = await Service.findOne({ where: { id } });
+    const service = new DeleteServicesService();
 
-    if (!service) {
-      throw new ApiError(
-        400,
-        "Não foi possível encontrar o servido informado para deletar!"
-      );
-    }
-
-    if (service.user_id !== user.id) {
-      throw new ApiError(
-        403,
-        "Você não tem autorização para deletar esse serviço!",
-      );
-    }
-
-    await Service.destroy({ where: { id: service.id } });
+    await service.execute(user, id);
 
     return res.send();
   }

@@ -1,58 +1,28 @@
-const { sign } = require("jsonwebtoken");
-const User = require("../models/User");
-const authConfig = require("../config/authConfig");
 const BaseController = require("./BaseController");
+const CreateBarbersService = require("../services/users/CreateBarber");
+const CreateClientsService = require("../services/users/CreateClient");
+const UpdateUsersService = require("../services/users/Update");
+const CreateSessionsService = require("../services/sessions/Create");
+const ListBarbersService = require("../services/users/ListBarbers");
+const FindUsersService = require("../services/users/Find");
 
 class UserController extends BaseController {
   constructor() {
     super();
   }
 
-  async _emailIsAvailable(email) {
-    const emailInUse = await User.findOne({ where: { email } });
-
-    return Boolean(!emailInUse);
-  }
-
   async createBarbers(req, res) {
-    const { name, email, password } = req.body;
+    const service = new CreateBarbersService();
 
-    const emailIsAvailable = await this._emailIsAvailable(email);
-
-    if (!emailIsAvailable) {
-      return this._handleBadRequestError(
-        res, 
-        'Uma conta já está utilizando este email!'
-      );
-    }
-
-    const user = await User.create({
-      name,
-      email,
-      password,
-      access: 2,
-    });
+    const user = await service.execute(req.body);
 
     return res.status(201).json(user);
   }
 
   async createClients(req, res) {
-    const { name, email, password } = req.body;
+    const service = new CreateClientsService();
 
-    const emailIsAvailable = await this._emailIsAvailable(email);
-
-    if (!emailIsAvailable) {
-      return this._handleBadRequestError(
-        res, 
-        'Uma conta já está utilizando este email!'
-      );
-    }
-
-    const user = await User.create({
-      name,
-      email,
-      password,
-    });
+    const user = await service.execute(req.body);
 
     return res.status(201).json(user);
   }
@@ -61,40 +31,9 @@ class UserController extends BaseController {
     const user = this._getRequestUser(req);
     const data = req.body;
 
-    if (data.email && data.email !== user.email) {
-      const emailIsAvailable = await this._emailIsAvailable(data.email);
+    const service = new UpdateUsersService();
 
-      if (!emailIsAvailable) {
-        this._handleBadRequestError(
-          res,
-          'O email inserido está em uso por outra conta!',
-        );
-      }
-    }
-
-    if (data.password && !data.currentPassword) {
-      this._handleBadRequestError(
-        res,
-        'Para atualizar sua senha, forneça a atual!',
-      );
-    }
-
-    if (data.password) {
-      const currentPasswordMatch = data.currentPassword === user.password;
-
-      if (!currentPasswordMatch) {
-        this._handleBadRequestError(
-          res,
-          'A senha atual não está correta!'
-        );
-      }
-    }
-
-    const filterOption = { id: user.id };
-
-    await User.update(data, { where: filterOption });
-
-    const updatedUser = await User.findOne(filterOption);
+    const updatedUser = await service.execute(user, data);
 
     return res.json(updatedUser);
   }
@@ -102,35 +41,17 @@ class UserController extends BaseController {
   async createSession(req, res) {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ where: { email } });
+    const service = new CreateSessionsService();
 
-    if (!user) {
-      this._handleBadRequestError(
-        res,
-        'Email/senha incorreto(s)',
-      );
-    }
-
-    if (user.password !== password) {
-      this._handleBadRequestError(
-        res,
-        'Email/senha incorreto(s)',
-      );
-    }
-
-    const token = sign({ user_id: user.id }, authConfig.secret, {
-      expiresIn: authConfig.expiresIn,
-    });
-
-    const response = { token, user };
+    const response = await service.execute({ email, password });
 
     return res.status(200).json(response);
   }
 
-  async listBarbers(req, res) {
-    const barbers = await User.findAll({
-      where: { access: 2 },
-    });
+  async listBarbers(_, res) {
+    const service = new ListBarbersService();
+
+    const barbers = await service.execute();
 
     return res.json(barbers);
   }
@@ -138,7 +59,9 @@ class UserController extends BaseController {
   async find(req, res) {
     const { id } = req.params;
 
-    const user = await User.findOne({ where: { id } });
+    const service = new FindUsersService();
+
+    const user = await service.execute({ id });
 
     return res.json(user);
   }
