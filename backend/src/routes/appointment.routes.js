@@ -9,6 +9,10 @@ const appointmentsController = new AppointmentsController();
 appointmentRoutes.use(ensureUserAuth);
 
 appointmentRoutes.get(
+  "/stats",
+  appointmentsController.getStats.bind(appointmentsController)
+);
+appointmentRoutes.get(
   "/clients/:date",
   celebrate({
     [Segments.PARAMS]: {

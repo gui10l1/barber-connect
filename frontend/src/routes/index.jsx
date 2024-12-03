@@ -11,6 +11,8 @@ import { BarbersPage } from '../pages/Barbers';
 import { CreateAppointmentPage } from '../pages/CreateAppointment';
 import { AppointmentScheduledPage } from '../pages/AppointmentScheduled';
 import { AppointmentsPage } from '../pages/Appointments';
+import { ListServicesPage } from '../pages/ListServices';
+import { ServiceDataPage } from '../pages/ServiceData';
 
 export const Routes = () => {
   return (
@@ -31,6 +33,9 @@ export const Routes = () => {
           )}
         >
           <Route path="schedule" Component={SchedulePage} />
+          <Route path="services" Component={ListServicesPage} />
+          <Route path="services/create" Component={ServiceDataPage} />
+          <Route path="services/edit/:id" Component={ServiceDataPage} />
         </Route>
 
         <Route

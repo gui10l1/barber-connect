@@ -10,6 +10,7 @@ import { Header } from "../../components/Header";
 export const SchedulePage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [appointments, setAppointments] = useState([]);
+  const [stats, setStats] = useState(null);
 
   const loadAppointmentsInDate = useCallback(async (date) => {
     const formattedDate = format(date, 'yyyy-MM-dd');
@@ -36,6 +37,16 @@ export const SchedulePage = () => {
     loadAppointments();
   }, [loadAppointmentsInDate]);
 
+  useEffect(() => {
+    async function loadStats() {
+      const { data } = await api.get('/appointments/stats');
+
+      setStats(data);
+    }
+
+    loadStats();
+  }, []);
+
   const handleCalendarDateChange = useCallback(async (value) => {
     const appointments = await loadAppointmentsInDate(value);
 
@@ -54,6 +65,10 @@ export const SchedulePage = () => {
 
     return rest;
   }, [appointments]);
+
+  const numberFormat = useMemo(() => {
+    return new Intl.NumberFormat('pt-BR', { currency: 'BRL', style: 'currency' }).format;
+  }, []);
 
   return (
     <div id="home">
@@ -109,22 +124,24 @@ export const SchedulePage = () => {
             minDate={new Date()}
           />
 
-          <div>
+          {stats && (
             <div>
-              <strong>15</strong>
-              <span>Agendamentos</span>
-            </div>
+              <div>
+                <strong>{stats.total}</strong>
+                <span>Agendamentos</span>
+              </div>
 
-            <div>
-              <strong>R$ 500,00</strong>
-              <span>Total Vendas</span>
-            </div>
+              <div>
+                <strong>{numberFormat(stats.sells)}</strong>
+                <span>Total Vendas</span>
+              </div>
 
-            <div>
-              <strong>R$ 500,00</strong>
-              <span>Comissões</span>
+              <div>
+                <strong>{numberFormat(stats.commissions)}</strong>
+                <span>Comissões</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

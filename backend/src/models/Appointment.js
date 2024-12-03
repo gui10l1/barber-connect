@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const database = require("../database");
 const User = require("./User");
+const Service = require("./Service");
 
 const Appointment = database.define('appointments', {
   id: {
@@ -37,5 +38,6 @@ const Appointment = database.define('appointments', {
 
 Appointment.belongsTo(User, { foreignKey: 'user_id' });
 Appointment.belongsTo(User, { foreignKey: 'client_id', as: 'client' });
+Appointment.hasOne(Service, { foreignKey: 'id', as: 'service' });
 
 module.exports = Appointment;

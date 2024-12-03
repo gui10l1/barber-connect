@@ -208,6 +208,35 @@ class AppointmentsController extends BaseController {
 
     return res.json({ upcoming: upcomingAppointments, past: pastAppointments });
   }
+
+  async getStats(req, res) {
+    const user = this._getRequestUser(req);
+    
+    const userAppointments = await Appointment.findAll({
+      where: { user_id: user.id },
+      include: { model: Service, as: 'service' },
+    });
+
+    const totalSells = userAppointments.reduce(
+      (acc, cur) => {
+        const { service } = cur;
+
+        if (service) {
+          const { price } = service;
+
+          acc += price;
+        }
+
+        return acc;
+      },
+      0,
+    );
+
+    const thirtyPercentOfSells = totalSells * .3;
+    const commissions = totalSells - thirtyPercentOfSells;
+
+    return res.json({ total: userAppointments.length, sells: totalSells, commissions });
+  }
 }
 
 module.exports = AppointmentsController;

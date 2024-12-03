@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/auth"
 import { HiUser } from "react-icons/hi2";
-import { FiCalendar, FiLogOut, FiMessageCircle } from "react-icons/fi";
+import { FiCalendar, FiLogOut, FiBriefcase } from "react-icons/fi";
 import './styles.scss'
 
 export const Header = () => {
@@ -27,9 +27,15 @@ export const Header = () => {
           </Link>
         )}
 
-        <Link to="#">
+        {user.access === 2 && (
+          <Link to="/auth/services">
+            <FiBriefcase size={38} color="#fff" />
+          </Link>
+        )}
+
+        {/* <Link to="#">
           <FiMessageCircle size={38} color="#fff" />
-        </Link>
+        </Link> */}
 
         <button type="button">
           <FiLogOut size={38} color="#fff" onClick={logOut} />
