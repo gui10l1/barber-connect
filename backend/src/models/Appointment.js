@@ -38,6 +38,6 @@ const Appointment = database.define('appointments', {
 
 Appointment.belongsTo(User, { foreignKey: 'user_id' });
 Appointment.belongsTo(User, { foreignKey: 'client_id', as: 'client' });
-Appointment.hasOne(Service, { foreignKey: 'id', as: 'service' });
+// Appointment.hasOne(Service, { foreignKey: 'id', as: 'service' });
 
 module.exports = Appointment;

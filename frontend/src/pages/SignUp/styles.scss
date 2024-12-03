@@ -46,6 +46,42 @@
       margin-bottom: 50px;
     }
 
+    .select-role {
+      > div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        gap: 12px;
+        
+        > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+  
+          gap: 4px;
+  
+          > label {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+  
+            opacity: .9;
+          }
+        }
+      }
+
+      > span {
+        display: block;
+
+        text-align: center;
+
+        margin-top: 4px;
+      
+        color: red;
+      }
+    }
+
     > form {
       display: flex;
       flex-direction: column;

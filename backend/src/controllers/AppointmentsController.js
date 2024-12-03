@@ -214,15 +214,20 @@ class AppointmentsController extends BaseController {
     
     const userAppointments = await Appointment.findAll({
       where: { user_id: user.id },
-      include: { model: Service, as: 'service' },
     });
 
-    const totalSells = userAppointments.reduce(
-      (acc, cur) => {
-        const { service } = cur;
+    const services = await Promise.all(
+      userAppointments.map(async appointment => {
+        const service = await Service.findOne({ where: { id: appointment.service_id } });
 
-        if (service) {
-          const { price } = service;
+        return service
+      })
+    );
+
+    const totalSells = services.reduce(
+      (acc, cur) => {
+        if (cur) {
+          const { price } = cur;
 
           acc += price;
         }
